@@ -13,10 +13,27 @@ const mailInfo = {
 
 
 
+const registration = async () => {
+  const encodedMailInfo = new URLSearchParams(mailInfo);
+  const response = await fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/profile", {
 
+    method: "GET",
+
+    headers: {
+
+      "Content-Type": "application/x-www-form-urlencoded",
+
+    }
+
+    
+
+  });
+  const textMessage = await response.json();
+  console.log(textMessage);
+}
 const newMessage = async () => {
   const encodedMessageData = new URLSearchParams(messageData);
-  const response = await fetch("http://146.185.154.90:8000/blog/john.doe@gmail.com/posts", {
+  const response = await fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/posts", {
 
     method: "POST",
 
@@ -35,7 +52,7 @@ const newMessage = async () => {
 
 const changeInfo = async () => {
   const encodedMailInfo = new URLSearchParams(mailInfo);
-  const response = await fetch("http://146.185.154.90:8000/blog/john.doe@gmail.com/profile", {
+  const response = await fetch("http://146.185.154.90:8000/blog/Batalov.Mikhail@gmail.com/profile", {
 
     method: "POST",
 
@@ -53,14 +70,16 @@ const changeInfo = async () => {
 }
 
 let lastDateTime
-changeInfo()
+// changeInfo()
 const getQueryDateTime = (dateTime) => {
   if (dateTime) return `?datetime=${dateTime}`;
   return "";
 }
-
+registration()
+newMessage()
+newMessage()
 setInterval(() => {
-  fetch("http://146.185.154.90:8000/blog/Batalov.Mikhail@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
+  fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
     return response.json()
   }).then((result) => {
     if (result.length > 0) {
@@ -79,15 +98,15 @@ setInterval(() => {
 
   });
 
-}, 5000);
+}, 3000);
 document.addEventListener("DOMContentLoaded", function (event) {
 
 
   document.querySelector('#sendMsgBtn').addEventListener('click', function () {
-    const inputName = document.querySelector('#nameInput').value
+    // const inputName = document.querySelector('#nameInput').value
     const inputMessage = document.querySelector('#messageInput').value
     messageData.message = inputMessage
-    messageData.author = inputName
+    // messageData.author = inputName
     newMessage()
 
   })
