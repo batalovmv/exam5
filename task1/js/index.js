@@ -1,10 +1,14 @@
 const messageData = {
+  message: 'Something',
 
-  message: "Hello, world?",
-
-  author: "Grisha",
 
 };
+
+const mailInfo = {
+  firstName: 'Djon',
+
+  lastName: 'Travolta',
+}
 
 
 
@@ -26,12 +30,30 @@ const newMessage = async () => {
 
   });
   const textMessage = await response.json();
-  }
+  console.log(textMessage);
+}
 
+const changeInfo = async () => {
+  const encodedMailInfo = new URLSearchParams(mailInfo);
+  const response = await fetch("http://146.185.154.90:8000/blog/john.doe@gmail.com/profile", {
 
+    method: "POST",
+
+    headers: {
+
+      "Content-Type": "application/x-www-form-urlencoded",
+
+    },
+
+    body: encodedMailInfo,
+
+  });
+  const textMessage = await response.json();
+  console.log(textMessage);
+}
 let lastDateTime
 
-const getQueryDateTime =(dateTime)=>{
+const getQueryDateTime = (dateTime) => {
   if (dateTime) return `?datetime=${dateTime}`;
   return "";
 }
@@ -40,32 +62,32 @@ setInterval(() => {
   fetch("http://146.185.154.90:8000/blog/john.doe@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
     return response.json()
   }).then((result) => {
-    if (result.length>0) {
+    if (result.length > 0) {
       lastDateTime = result.at(-1).datetime;
       console.log(result);
       result.forEach(element => {
-       const li = document.createElement('li')
-        li.innerHTML = element.datetime.split('T')[0] + "  " + '[' + element.datetime.split('T')[1].substr(0, 5) + ']' + "   " + element.user.firstName + "   " + element.user.lastName + ":  "+ element.message
-       chatList.append(li)
-        
+        const li = document.createElement('li')
+        li.innerHTML = element.datetime.split('T')[0] + "  " + '[' + element.datetime.split('T')[1].substr(0, 5) + ']' + "   " + element.user.firstName + "   " + element.user.lastName + ":  " + element.message
+        chatList.append(li)
+
       });
     }
-    
-    
-    
-    
-     });
+
+
+
+
+  });
 
 }, 5000);
 document.addEventListener("DOMContentLoaded", function (event) {
 
 
-document.querySelector('#sendMsgBtn').addEventListener('click', function () {
-  const inputName = document.querySelector('#nameInput').value
-  const inputMessage = document.querySelector('#messageInput').value
-   messageData.message= inputMessage
-  messageData.author= inputName
+  document.querySelector('#sendMsgBtn').addEventListener('click', function () {
+    const inputName = document.querySelector('#nameInput').value
+    const inputMessage = document.querySelector('#messageInput').value
+    messageData.message = inputMessage
+    messageData.author = inputName
     newMessage()
 
-})
+  })
 });
