@@ -5,9 +5,9 @@ const messageData = {
 };
 
 const mailInfo = {
-  firstName: 'Djon',
+  firstName: 'Batalov',
 
-  lastName: 'Travolta',
+  lastName: 'Mikhail',
 }
 
 
@@ -51,15 +51,16 @@ const changeInfo = async () => {
   const textMessage = await response.json();
   console.log(textMessage);
 }
-let lastDateTime
 
+let lastDateTime
+changeInfo()
 const getQueryDateTime = (dateTime) => {
   if (dateTime) return `?datetime=${dateTime}`;
   return "";
 }
 
 setInterval(() => {
-  fetch("http://146.185.154.90:8000/blog/john.doe@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
+  fetch("http://146.185.154.90:8000/blog/Batalov.Mikhail@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
     return response.json()
   }).then((result) => {
     if (result.length > 0) {
