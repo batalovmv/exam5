@@ -1,8 +1,8 @@
 const messageData = {
   message: 'Something'
- };
-const subscribeData ={
-  email:'aselek.g@mail.ru'
+};
+const subscribeData = {
+  email: 'aselek.g@mail.ru'
 }
 
 const mailInfo = {
@@ -26,12 +26,12 @@ const registration = async () => {
 
     }
 
-    
+
 
   });
   const textMessage = await response.json();
   console.log(textMessage);
-  userName.innerHTML = textMessage.firstName +" " +textMessage.lastName
+  userName.innerHTML = textMessage.firstName + " " + textMessage.lastName
 }
 const newMessage = async () => {
   const encodedMessageData = new URLSearchParams(messageData);
@@ -100,9 +100,9 @@ registration()
 changeInfo()
 // newMessage()
 // newMessage()
-subscribe()
+
 setInterval(() => {
-  fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
+  fetch('http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/posts' + getQueryDateTime(lastDateTime)).then((response) => {
     return response.json()
   }).then((result) => {
     if (result.length > 0) {
@@ -111,8 +111,8 @@ setInterval(() => {
       result.forEach(element => {
         const li = document.createElement('li')
         li.innerHTML = element.datetime.split('T')[0] + "  " + '[' + element.datetime.split('T')[1].substr(0, 5) + ']' + "   " + element.user.firstName + "   " + element.user.lastName + ":  " + element.message
-        chatList.append(li)
-
+        const chatList = document.querySelector('#chatList')
+        chatList.insertBefore(li, chatList.children[0])
       });
     }
 
@@ -120,28 +120,35 @@ setInterval(() => {
 
 
   });
-
 }, 3000);
+
 document.addEventListener("DOMContentLoaded", function (event) {
-
-
-  document.querySelector('#sendMsgBtn').addEventListener('click', function () {
-    // const inputName = document.querySelector('#nameInput').value
+  document.getElementById('sendMsgBtn').addEventListener('click', function () {
     const inputMessage = document.querySelector('#messageInput').value
     messageData.message = inputMessage
-    // messageData.author = inputName
     newMessage()
 
   })
-  document.querySelector('#changeBtn').addEventListener('click', function () {
-   changeInfo.style.display = block;
-    
+  document.getElementById('inputFollowEmailBtn').addEventListener('click', function () {
+    const inputMessage = document.querySelector('#inputFollowEmail').value
+    subscribeData.email = inputMessage
+    subscribe()
 
   })
-  const myModal = document.getElementById('myModal')
-  const myInput = document.getElementById('myInput')
+  document.getElementById('saveChangesNameBtn').addEventListener('click', function () {
+    const firstName = document.querySelector('#changeFirstName').value
+    const lastName = document.querySelector('#changeLastName').value
 
-  myModal.addEventListener('shown.bs.modal', () => {
-    myInput.focus()
+    console.log(firstName + lastName);
+    mailInfo.firstName = firstName
+    mailInfo.lastName = lastName
+    changeInfo()
+    console.log(mailInfo);
+    userName.innerHTML = firstName + " " + lastName
+
   })
+
+
+
+
 });
