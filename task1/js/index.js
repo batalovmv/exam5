@@ -2,13 +2,13 @@ const messageData = {
   message: 'Something'
  };
 const subscribeData ={
-email:'fpstp13@gmail.com'
+  email:'aselek.g@mail.ru'
 }
 
 const mailInfo = {
-  firstName: 'Batalov',
+  firstName: 'Баталов',
 
-  lastName: 'Mikhail',
+  lastName: 'Михаил',
 }
 
 
@@ -31,6 +31,7 @@ const registration = async () => {
   });
   const textMessage = await response.json();
   console.log(textMessage);
+  userName.innerHTML = textMessage.firstName +" " +textMessage.lastName
 }
 const newMessage = async () => {
   const encodedMessageData = new URLSearchParams(messageData);
@@ -53,7 +54,7 @@ const newMessage = async () => {
 
 const changeInfo = async () => {
   const encodedMailInfo = new URLSearchParams(mailInfo);
-  const response = await fetch("http://146.185.154.90:8000/blog/Batalov.Mikhail@gmail.com/profile", {
+  const response = await fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/profile", {
 
     method: "POST",
 
@@ -68,6 +69,7 @@ const changeInfo = async () => {
   });
   const textMessage = await response.json();
   console.log(textMessage);
+  userName.innerHTML = textMessage.firstName + " " + textMessage.lastName
 }
 const subscribe = async () => {
   const encodedSubscribeData = new URLSearchParams(subscribeData);
@@ -89,14 +91,15 @@ const subscribe = async () => {
 }
 
 let lastDateTime
-// changeInfo()
+
 const getQueryDateTime = (dateTime) => {
   if (dateTime) return `?datetime=${dateTime}`;
   return "";
 }
 registration()
-newMessage()
-newMessage()
+changeInfo()
+// newMessage()
+// newMessage()
 subscribe()
 setInterval(() => {
   fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
@@ -129,5 +132,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // messageData.author = inputName
     newMessage()
 
+  })
+  document.querySelector('#changeBtn').addEventListener('click', function () {
+   changeInfo.style.display = block;
+    
+
+  })
+  const myModal = document.getElementById('myModal')
+  const myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', () => {
+    myInput.focus()
   })
 });
