@@ -1,8 +1,9 @@
 const messageData = {
-  message: 'Something',
-
-
-};
+  message: 'Something'
+ };
+const subscribeData ={
+email:'fpstp13@gmail.com'
+}
 
 const mailInfo = {
   firstName: 'Batalov',
@@ -68,6 +69,24 @@ const changeInfo = async () => {
   const textMessage = await response.json();
   console.log(textMessage);
 }
+const subscribe = async () => {
+  const encodedSubscribeData = new URLSearchParams(subscribeData);
+  const response = await fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/subscribe", {
+
+    method: "POST",
+
+    headers: {
+
+      "Content-Type": "application/x-www-form-urlencoded",
+
+    },
+
+    body: encodedSubscribeData,
+
+  });
+  const textMessage = await response.json();
+  console.log(textMessage);
+}
 
 let lastDateTime
 // changeInfo()
@@ -78,6 +97,7 @@ const getQueryDateTime = (dateTime) => {
 registration()
 newMessage()
 newMessage()
+subscribe()
 setInterval(() => {
   fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/posts" + getQueryDateTime(lastDateTime)).then((response) => {
     return response.json()
