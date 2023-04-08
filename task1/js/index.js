@@ -15,8 +15,7 @@ const mailInfo = {
 
 
 const registration = async () => {
-  const encodedMailInfo = new URLSearchParams(mailInfo);
-  const response = await fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/profile", {
+   const response = await fetch("http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/profile", {
 
     method: "GET",
 
@@ -48,9 +47,8 @@ const newMessage = async () => {
     body: encodedMessageData,
 
   });
-  const textMessage = await response.json();
-  console.log(textMessage);
-}
+  
+  }
 
 const changeInfo = async () => {
   const encodedMailInfo = new URLSearchParams(mailInfo);
@@ -68,8 +66,7 @@ const changeInfo = async () => {
 
   });
   const textMessage = await response.json();
-  console.log(textMessage);
-  userName.innerHTML = textMessage.firstName + " " + textMessage.lastName
+    userName.innerHTML = textMessage.firstName + " " + textMessage.lastName
 }
 const subscribe = async () => {
   const encodedSubscribeData = new URLSearchParams(subscribeData);
@@ -97,9 +94,6 @@ const getQueryDateTime = (dateTime) => {
   return "";
 }
 registration()
-changeInfo()
-// newMessage()
-// newMessage()
 
 setInterval(() => {
   fetch('http://146.185.154.90:8000/blog/batalov.mikhail@gmail.com/posts' + getQueryDateTime(lastDateTime)).then((response) => {
@@ -110,15 +104,15 @@ setInterval(() => {
       console.log(result);
       result.forEach(element => {
         const li = document.createElement('li')
-        li.innerHTML = element.datetime.split('T')[0] + "  " + '[' + element.datetime.split('T')[1].substr(0, 5) + ']' + "   " + element.user.firstName + "   " + element.user.lastName + ":  " + element.message
+        li.innerHTML = element.datetime.split('T')[0] + "  " + '[' + element.datetime.split('T')[1].substr(0, 5) + ']'
+        const clonedNode = document.getElementById("cardOriginal").cloneNode(true);
+        clonedNode.removeAttribute('id')
+        clonedNode.querySelector('.card-title').innerHTML = element.user.firstName + "   " + element.user.lastName + ' сказал:'
+        clonedNode.querySelector('.card-text').innerHTML = element.message
         const chatList = document.querySelector('#chatList')
-        chatList.insertBefore(li, chatList.children[0])
+        chatList.insertBefore(li, chatList.children[0]).appendChild(clonedNode)
       });
     }
-
-
-
-
   });
 }, 3000);
 
@@ -138,17 +132,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
   document.getElementById('saveChangesNameBtn').addEventListener('click', function () {
     const firstName = document.querySelector('#changeFirstName').value
     const lastName = document.querySelector('#changeLastName').value
-
-    console.log(firstName + lastName);
     mailInfo.firstName = firstName
     mailInfo.lastName = lastName
     changeInfo()
-    console.log(mailInfo);
     userName.innerHTML = firstName + " " + lastName
 
   })
-
-
-
-
 });

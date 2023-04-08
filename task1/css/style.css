@@ -1,6 +1,9 @@
 #subscribeBtn{
   min-width: 200px;
 }
-.img-logo:hover{
-  cursor: pointer;
+#cardOriginal{
+display: none;
 }
+ li {
+   list-style-type: none;
+    }
